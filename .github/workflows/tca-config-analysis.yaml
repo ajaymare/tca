@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Validate Istio Configs
-        uses: ajaymare/tca@main
+        uses: tetratelabs/tca-action@main
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
