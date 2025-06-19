@@ -18,7 +18,9 @@ jobs:
           mesh-config: |-
             /gitops/bookinfo/bookinfo-gateway.yaml
             /gitops/bookinfo/bookinfo.yaml
-          kube-config: ${{ secrets.KUBECONFIG }}
+          #kube-config: ${{ secrets.KUBECONFIG }}
+          github-token: ${{ secrets.GH_TOKEN }}
+          local-only: true
 
       - name: Comment on PR with results
         uses: thollander/actions-comment-pull-request@v3
