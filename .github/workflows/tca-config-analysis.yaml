@@ -19,7 +19,7 @@ jobs:
             ./tca/gitops/bookinfo/bookinfo-gateway.yaml
             ./tca/gitops/bookinfo/bookinfo.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
-
+## new changes
       - name: Comment on PR with results
         uses: thollander/actions-comment-pull-request@v3
         with:
