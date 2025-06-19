@@ -1,0 +1,83 @@
+name: "Tetrate Config Analyzer"
+description: "Validate and analyze Istio service mesh configurations for security, compliance, and best practices"
+author: "Tetrate"
+
+inputs:
+  tis-password:
+    description: "Tetrate Istio Subscription (TIS) password required for authentication. Store this as a secret"
+    required: true
+  local-only:
+    description: "Analyze configuration files locally without connecting to a Kubernetes cluster"
+    required: false
+    default: "false"
+  mesh-config:
+    description: |-
+      Path to the Istio configuration files.
+      Multiple files can be specified using either:
+      - Space-separated list: "./config1.yaml ./config2.yaml"
+      - Newline-separated list using YAML block scalar: 
+        mesh-config: |-
+          ./config1.yaml
+          ./config2.yaml
+    required: false
+    default: ""
+  kube-config:
+    description: "Kubernetes config file content for cluster analysis. Not used in local-only mode"
+    required: false
+    default: ""
+  version:
+    description: "TCA version to use (e.g. 'v1.1.0'). Default is 'v1.2.0'"
+    required: false
+    default: "v1.2.0"
+outputs:
+  result-file:
+    description: "Path to save TCA analysis output"
+    value: "${{ github.workspace }}/tca-output.txt"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Add action directory to path
+      shell: bash
+      run: |
+        echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+
+    - name: Get TCA binary
+      shell: bash
+      env:
+        TIS_PASS: ${{ inputs.tis-password }}
+        TCA_VERSION: ${{ inputs.version }}
+      run: |
+        ${{ github.action_path }}/get-tca.sh
+
+    - name: Write Kubeconfig to File (if provided)
+      shell: bash
+      run: |
+        # Define debug function
+        function debug() {
+          if [[ "${RUNNER_DEBUG:-}" == "1" ]]; then
+            echo "$@"
+          fi
+        }
+        debug "Checking for kubeconfig presence..."
+        
+        KUBE_CONFIG='${{ inputs.kube-config }}'
+        if [[ -n "$KUBE_CONFIG" ]]; then
+          debug "Kubeconfig is present"
+          mkdir -p /tmp
+          echo "$KUBE_CONFIG" > /tmp/kubeconfig.yaml
+          debug "Wrote kubeconfig to /tmp/kubeconfig.yaml"
+          debug "Kubeconfig file permissions: $(ls -l /tmp/kubeconfig.yaml)"
+        else
+          debug "No kubeconfig provided"
+        fi
+
+    - name: Run TCA analyzer
+      shell: bash
+      env:
+        TIS_PASS: ${{ inputs.tis-password }}
+        MESH_CONFIG: ${{ inputs.mesh-config }}
+        LOCAL_ONLY: ${{ inputs.local-only }}
+        KUBE_CONFIG: /tmp/kubeconfig.yaml
+      run: |
+        ${{ github.action_path }}/run-tca.sh ${{ github.workspace }}/tca-output.txt
