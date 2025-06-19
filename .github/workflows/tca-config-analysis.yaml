@@ -20,6 +20,7 @@ jobs:
           mesh-config: |-
             gitops/bookinfo/bookinfo-gateway.yaml
             gitops/bookinfo/bookinfo.yaml
+          github-token: ${{ secrets.GH_PAT }}
           kube-config: ${{ secrets.KUBECONFIG }}
 
       - name: Comment on PR with results
