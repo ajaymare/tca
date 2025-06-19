@@ -25,7 +25,7 @@ jobs:
       - name: Comment on PR with results
         uses: thollander/actions-comment-pull-request@v3
         with:
-          file-path: gitops/tca-output.txt
+          file-path: tca-output.txt
           #github-token: ${{ secrets.GH_TOKEN }}
       - name: Optionally Fail if there are errors
         run: |
