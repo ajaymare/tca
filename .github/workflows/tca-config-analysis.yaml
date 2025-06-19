@@ -21,8 +21,7 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
-            gitops/bookinfo/bookinfo-gateway.yaml
-            gitops/bookinfo/bookinfo.yaml
+            ./tca/gitops/bookinfo/bookinfo-gateway.yaml
           local-only: true
           #kube-config: ${{ secrets.KUBECONFIG }}
           #github-token: ${{ secrets.GH_PAT }}
