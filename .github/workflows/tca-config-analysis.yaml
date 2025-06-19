@@ -27,7 +27,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v3
         with:
           #file-path: ${{ steps.tca.outputs.result-file }}
-          file-path: outputs/tca-output.txt
+          file-path: tca-output.txt
           mode: upsert
           create-if-not-exists: true
           github-token: ${{ secrets.GH_PAT }}
