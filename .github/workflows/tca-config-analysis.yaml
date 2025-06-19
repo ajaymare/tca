@@ -22,10 +22,10 @@ jobs:
             gitops/bookinfo/bookinfo.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
 
-      #- name: Comment on PR with results
-      #  uses: thollander/actions-comment-pull-request@v3
-      #  with:
-      #    file-path: ${{ steps.tca.outputs.result-file }}
+      - name: Comment on PR with results
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          file-path: ${{ steps.tca.outputs.result-file }}
 
       - name: Optionally Fail if there are errors
         run: |
