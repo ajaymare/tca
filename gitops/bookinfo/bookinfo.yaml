@@ -31,7 +31,7 @@ kind: Namespace
 metadata:
   labels:
     istio-injection: enabled
-  name: direct-bookinfo
+  name: bookinfo
 ---
 ##################################################################################################
 # Details service
