@@ -12,27 +12,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: tca
+          clean: true
       
       - name: Validate Istio Configs
-        uses: ajaymare/tca@main
+        uses: ./tca
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
             gitops/bookinfo/bookinfo-gateway.yaml
             gitops/bookinfo/bookinfo.yaml
-          github-token: ${{ secrets.GH_PAT }}
-          kube-config: ${{ secrets.KUBECONFIG }}
-
-      - name: Comment on PR with results
-        uses: thollander/actions-comment-pull-request@v3
+          local-only: true
+          #kube-config: ${{ secrets.KUBECONFIG }}
+          #github-token: ${{ secrets.GH_PAT }}
+      
+      - name: Validation failure
+        uses: ./tca
+        continue-on-error: true # Continue even if the job fails
         with:
-          #file-path: ${{ steps.tca.outputs.result-file }}
-          file-path: tca-output.txt
-          mode: upsert
-          create-if-not-exists: true
+          tis-password: ${{ secrets.TIS_PASS }}
+          mesh-config: |-
+            ./tca/test/manifest.yaml
+            ./tca/test/failed.yaml
           github-token: ${{ secrets.GH_PAT }}
-      - name: Optionally Fail if there are errors
-        run: |
-          if [ ${{ env.error-count }} -gt 0 ]; then
-            exit 1
-          fi
+          local-only: true
