@@ -95,3 +95,21 @@ spec:
       port: 9080
       weight: 10
 ---
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "default"
+  namespace: "default"
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "duplicate"
+  namespace: "default"
+spec:
+  mtls:
+    mode: STRICT
+---
