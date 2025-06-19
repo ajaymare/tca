@@ -3,7 +3,7 @@ name: Hybrid Config Analysis
 on:
   pull_request:
     paths:
-      - 'istio/**'
+      - 'gitops/**'
 
 jobs:
   analyze-configs:
@@ -16,7 +16,8 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
-            /gitops/bookinfo
+            /gitops/bookinfo/bookinfo-gateway.yaml
+            /gitops/bookinfo/bookinfo.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
 
       - name: Comment on PR with results
