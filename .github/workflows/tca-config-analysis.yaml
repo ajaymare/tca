@@ -3,7 +3,7 @@ name: Hybrid Config Analysis
 on:
   pull_request:
     paths:
-      - 'tcs/gitops/**'
+      - 'tca/gitops/**'
 
 jobs:
   analyze-configs:
