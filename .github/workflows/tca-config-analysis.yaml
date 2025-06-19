@@ -22,9 +22,9 @@ jobs:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
             ./tca/gitops/bookinfo/bookinfo-gateway.yaml
-          local-only: true
-          #kube-config: ${{ secrets.KUBECONFIG }}
-          #github-token: ${{ secrets.GH_PAT }}
+          #local-only: true
+          kube-config: ${{ secrets.KUBECONFIG }}
+          github-token: ${{ secrets.GH_PAT }}
       
       - name: Validation failure
         uses: ./tca
@@ -32,7 +32,7 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
-            ./tca/test/manifest.yaml
-            ./tca/test/failed.yaml
+            ./tca/gitops/bookinfo/bookinfo-gateway.yaml
           github-token: ${{ secrets.GH_PAT }}
-          local-only: true
+          kube-config: ${{ secrets.KUBECONFIG }}
+          #local-only: true
