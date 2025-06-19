@@ -3,7 +3,7 @@ name: Hybrid Config Analysis
 on:
   pull_request:
     paths:
-      - 'tca/gitops/**'
+      - '/gitops/**'
 
 jobs:
   analyze-configs:
@@ -16,8 +16,8 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
-            ./tca/gitops/bookinfo/bookinfo-gateway.yaml
-            ./tca/gitops/bookinfo/bookinfo.yaml
+            ./gitops/bookinfo/bookinfo-gateway.yaml
+            ./gitops/bookinfo/bookinfo.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
 ## new changes
       - name: Comment on PR with results
