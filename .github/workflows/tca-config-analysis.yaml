@@ -18,8 +18,8 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
-            ./gitops/bookinfo/bookinfo-gateway.yaml
-            ./gitops/bookinfo/bookinfo.yaml
+            ./tca/gitops/bookinfo/bookinfo-gateway.yaml
+            ./tca/gitops/bookinfo/bookinfo.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
 
       - name: Comment on PR with results
