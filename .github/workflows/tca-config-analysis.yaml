@@ -12,13 +12,13 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Validate Istio Configs
-        uses: tetratelabs/tca-action@main
+        uses: ajaymare/tca@main
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
             /gitops/bookinfo/bookinfo-gateway.yaml
             /gitops/bookinfo/bookinfo.yaml
-          #kube-config: ${{ secrets.KUBECONFIG }}
+          kube-config: ${{ secrets.KUBECONFIG }}
           github-token: ${{ secrets.GH_TOKEN }}
           local-only: true
 
