@@ -16,10 +16,10 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
-            ./gitops/bookinfo/bookinfo-gateway.yaml
-            ./gitops/bookinfo/bookinfo.yaml
+            /gitops/bookinfo/bookinfo-gateway.yaml
+            /gitops/bookinfo/bookinfo.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
-## new changes
+
       - name: Comment on PR with results
         uses: thollander/actions-comment-pull-request@v3
         with:
