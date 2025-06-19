@@ -16,8 +16,7 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
-            ./istio/gateway.yaml
-            ./istio/virtualservice.yaml
+            /gitops/bookinfo
           kube-config: ${{ secrets.KUBECONFIG }}
 
       - name: Comment on PR with results
