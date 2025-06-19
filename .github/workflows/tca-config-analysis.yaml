@@ -28,6 +28,8 @@ jobs:
         with:
           #file-path: ${{ steps.tca.outputs.result-file }}
           file-path: outputs/tca-output.txt
+          mode: upsert
+          create-if-not-exists: true
           github-token: ${{ secrets.GH_PAT }}
       - name: Optionally Fail if there are errors
         run: |
