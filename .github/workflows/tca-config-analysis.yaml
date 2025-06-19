@@ -26,7 +26,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v3
         with:
           file-path: ${{ steps.tca.outputs.result-file }}
-
+          github-token: ${{ secrets.GH_TOKEN }}
       - name: Optionally Fail if there are errors
         run: |
           if [ ${{ env.error-count }} -gt 0 ]; then
