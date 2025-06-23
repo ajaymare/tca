@@ -1,9 +1,9 @@
 name: Hybrid Config Analysis
 
 on:
-  #push:
-  #  branches:
-  #    - "main"
+  push:
+    branches:
+      - "main"
   pull_request:
     branches:
       - "main"
@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate Istio Configs
+        id: tca
         uses: ajaymare/tca@main
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
