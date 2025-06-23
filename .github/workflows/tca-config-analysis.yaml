@@ -18,7 +18,7 @@ jobs:
       - name: success
         uses: ./tca
         with:
-          tis-password: ${{ secrets.TIS_PASS }}
+          tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: ./tca/test/manifest.yaml
           local-only: true
 
@@ -26,7 +26,7 @@ jobs:
         uses: ./tca
         continue-on-error: true # Continue even if the job fails
         with:
-          tis-password: ${{ secrets.TIS_PASS }}
+          tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: |-
             ./tca/test/manifest.yaml
             ./tca/test/failed.yaml
