@@ -1,38 +1,34 @@
-name: Hybrid Config Analysis
-
+name: Build and Test
 on:
+  push:
+    branches:
+      - "main"
   pull_request:
     branches:
-      - 'main'
-    #paths:
-    #  - '/gitops/**'
-
+      - "main"
 jobs:
-  analyze-configs:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           path: tca
           clean: true
-      
-      - name: Validate Istio Configs
+
+      - name: success
         uses: ./tca
         with:
-          tis-password: ${{ secrets.TIS_PASSWORD }}
-          mesh-config: |-
-            ./tca/gitops/bookinfo/bookinfo-gateway.yaml
-          #local-only: true
-          kube-config: ${{ secrets.KUBECONFIG }}
-          github-token: ${{ secrets.GH_PAT }}
-      
-      - name: Validation failure
+          tis-password: ${{ secrets.TIS_PASS }}
+          mesh-config: ./tca/test/manifest.yaml
+          local-only: true
+
+      - name: failure
         uses: ./tca
         continue-on-error: true # Continue even if the job fails
         with:
-          tis-password: ${{ secrets.TIS_PASSWORD }}
+          tis-password: ${{ secrets.TIS_PASS }}
           mesh-config: |-
-            ./tca/gitops/bookinfo/bookinfo-gateway.yaml
-          github-token: ${{ secrets.GH_PAT }}
-          kube-config: ${{ secrets.KUBECONFIG }}
-          #local-only: true
+            ./tca/test/manifest.yaml
+            ./tca/test/failed.yaml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          local-only: true
