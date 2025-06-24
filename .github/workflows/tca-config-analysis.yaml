@@ -32,7 +32,7 @@ jobs:
         with:
           message: |
             Hello world
-            la
+            ls
             tree
           #file-path: ${{ steps.tca.outputs.result-file }}
           file-path: .github/tca-results.txt
