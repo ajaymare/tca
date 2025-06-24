@@ -30,13 +30,10 @@ jobs:
       - name: Comment on PR
         uses: thollander/actions-comment-pull-request@v3
         with:
-          #file-path: ${{ steps.tca.outputs.result-file }}
-          file-path: .github/tca-results.txt
-      - name: debug
-        run: |
-          - ls
-          - tree
-
+          file-path: ${{ steps.tca.outputs.result-file }}
+          #file-path: .github/tca-results.txt
+      - run: ls
+      
       - name: Optionally Fail if there are errors
         run: |
           if [ ${{ env.error-count }} -gt 0 ]; then
