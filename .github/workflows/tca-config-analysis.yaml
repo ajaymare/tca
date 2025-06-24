@@ -29,11 +29,10 @@ jobs:
 
       - name: Comment on PR
         uses: thollander/actions-comment-pull-request@v3
+        run: |
+          - ls
+          - tree
         with:
-          message: |
-            Hello world
-            ls
-            tree
           #file-path: ${{ steps.tca.outputs.result-file }}
           file-path: .github/tca-results.txt
 
