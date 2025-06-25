@@ -1,5 +1,4 @@
-name: Hybrid Config Analysis
-
+name: Build and Test
 on:
   push:
     branches:
@@ -7,35 +6,70 @@ on:
   pull_request:
     branches:
       - "main"
-
 jobs:
-  analyze-configs:
+  success:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          path: tca
+          clean: true
 
-      - name: Validate Istio Configs
-        id: tca
-        uses: ajaymare/tca@main
+      - name: success
+        uses: ./tca
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
-          mesh-config: "test/failed.yaml"  # Multiple files with space separator
-          # OR use newline separator
-          # mesh-config: |-
-          #   ./configs/gateway.yaml
-          #   ./configs/virtualservice.yaml
-          kube-config: ${{ secrets.KUBECONFIG }}
+          mesh-config: ./tca/test/manifest.yaml
+          local-only: true
+
+  failure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: tca
+          clean: true
+
+      - name: failure
+        id: failure
+        uses: ./tca
+        continue-on-error: true # Continue even if the job fails
+        with:
+          tis-password: ${{ secrets.TIS_PASSWORD }}
+          mesh-config: |-
+            ./tca/test/manifest.yaml
+            ./tca/test/failed.yaml
+          github-token: ${{ secrets.GH_PAT }}
+          local-only: true
 
       - name: Comment on PR
+        if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v3
         with:
-          file-path: ${{ steps.tca.outputs.result-file }}
-          #file-path: .github/tca-results.txt
-      - run: ls
+          comment-tag: failure
+          mode: upsert
+          file-path: ${{ steps.failure.outputs.result-file }}
+
+  hybrid-failure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: tca
+          clean: true
+
+      - name: hybrid
+        id: hybrid
+        uses: ./tca
+        continue-on-error: true # Continue even if the job fails
+        with:
+          tis-password: ${{ secrets.TIS_PASSWORD }}
+          github-token: ${{ secrets.GH_PAT }}
       
-      - name: Optionally Fail if there are errors
-        run: |
-          if [ ${{ env.error-count }} -gt 0 ]; then
-            exit 1
-          fi
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: hybrid-failure
+          mode: upsert
+          file-path: ${{ steps.hybrid.outputs.result-file }}
