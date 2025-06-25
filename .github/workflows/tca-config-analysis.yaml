@@ -18,6 +18,21 @@ jobs:
       - name: success
         uses: ./tca
         with:
+          tis-password: ${{ secrets.TIS_PASS }}
+          mesh-config: ./tca/test/manifest.yaml
+          local-only: true
+
+  failure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: tca
+          clean: true
+          
+      - name: success
+        uses: ./tca
+        with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: ./tca/test/manifest.yaml
           #local-only: true
@@ -35,12 +50,12 @@ jobs:
         uses: ./tca
         continue-on-error: true # Continue even if the job fails
         with:
-          tis-password: ${{ secrets.TIS_PASSWORD }}
+          tis-password: ${{ secrets.TIS_PASS }}
           mesh-config: |-
             ./tca/test/manifest.yaml
             ./tca/test/failed.yaml
-          github-token: ${{ secrets.GH_PAT }}
-          #local-only: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          local-only: true
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'
@@ -63,8 +78,9 @@ jobs:
         uses: ./tca
         continue-on-error: true # Continue even if the job fails
         with:
-          tis-password: ${{ secrets.TIS_PASSWORD }}
-          github-token: ${{ secrets.GH_PAT }}
+          tis-password: ${{ secrets.TIS_PASS }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       
       - name: Comment on PR
         if: github.event_name == 'pull_request'
