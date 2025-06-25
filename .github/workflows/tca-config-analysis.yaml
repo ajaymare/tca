@@ -20,7 +20,7 @@ jobs:
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           mesh-config: ./tca/test/manifest.yaml
-          local-only: true
+          #local-only: true
 
   failure:
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
             ./tca/test/manifest.yaml
             ./tca/test/failed.yaml
           github-token: ${{ secrets.GH_PAT }}
-          local-only: true
+          #local-only: true
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'
