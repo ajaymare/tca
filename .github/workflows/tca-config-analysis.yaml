@@ -2,8 +2,8 @@ name: Hybrid Config Analysis
 
 on:
   pull_request:
-    paths:
-      - 'main'
+    branches:
+      - main'
 
 jobs:
   analyze-configs:
