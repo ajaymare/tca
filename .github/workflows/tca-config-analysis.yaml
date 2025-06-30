@@ -14,7 +14,7 @@ jobs:
       - name: Validate Istio Configs
         uses: tetratelabs/tca-action@main
         with:
-          tis-password: ${{ secrets.TIS_PASSWORD }}
+          tis-password: ${{ secrets.TIS_PASSWORD }
           mesh-config: |-
             test/failed.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
@@ -23,7 +23,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v3
         with:
           file-path: ${{ steps.tca.outputs.result-file }}
-
+          
       - name: Optionally Fail if there are errors
         run: |
           if [ ${{ env.error-count }} -gt 0 ]; then
