@@ -44,3 +44,40 @@ spec:
     - destination:
         host: "non-existent-service.example-namespace.svc.cluster.local"
 ---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - httpbin.example.com
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS  # Gateway configured for HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: httpbin-credential
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpbin-vs
+spec:
+  gateways:
+    - istio-system/gateway
+  hosts:
+    - httpbin.example.com
+  tcp:  # Using TCP instead of HTTP/HTTPS
+    - match:
+        - port: 443
+      route:
+        - destination:
+            host: httpbin
+            port:
+              number: 8000
+          weight: 100
