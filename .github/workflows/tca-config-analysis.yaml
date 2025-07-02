@@ -27,7 +27,7 @@ jobs:
           #   ./configs/virtualservice.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
           local-only: true
-
+          
       - name: Comment on PR
         uses: thollander/actions-comment-pull-request@v3
         with:
