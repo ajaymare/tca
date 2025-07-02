@@ -1,52 +1,16 @@
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
-metadata:
-  name: "default"
-  namespace: "default"
-spec:
-  mtls:
-    mode: STRICT
----
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
-metadata:
-  name: "duplicate"
-  namespace: "default"
-spec:
-  mtls:
-    mode: STRICT
----
 apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
+kind: Gateway
 metadata:
-  name: reviews-vs
+  name: cert-not-found-gateway
   namespace: bookinfo
-spec:
-  hosts:
-    - reviews.bookinfo.svc.cluster.local
-  http:
-    - route:
-        - destination:
-            host: reviews
-            subset: v2
----
-apiVersion: networking.istio.io/v1beta1
-kind: ServiceEntry
-metadata:
-  name: partner-api-b
-  namespace: bookinfo
-spec:
-  hosts:
-    - api.partner.com
-  addresses:
-    - 10.10.10.0/24
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: payments-policy
 spec:
   selector:
-    matchLabels:
-      app: payments
----
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: "not-exist"
