@@ -41,3 +41,12 @@ spec:
   addresses:
     - 10.10.10.0/24
 ---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: payments-policy
+spec:
+  selector:
+    matchLabels:
+      app: payments
+---
