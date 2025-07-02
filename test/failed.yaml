@@ -30,3 +30,12 @@ spec:
             host: reviews
             subset: v2
 ---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: partner-api-b
+spec:
+  hosts:
+    - api.partner.com
+  addresses:
+    - 10.10.10.0/24
