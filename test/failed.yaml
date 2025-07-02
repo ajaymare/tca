@@ -1,3 +1,4 @@
+---
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
@@ -13,4 +14,18 @@ spec:
         protocol: HTTPS
       tls:
         mode: SIMPLE
-        credentialName: "not-exist"
+        credentialName: "not"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: invalid-host-virtual-service
+  namespace: bookinfo
+spec:
+  hosts:
+  - "non-existent-service.example-namespace.svc.cluster.local"
+  http:
+  - route:
+    - destination:
+        host: "non-existent-service.example-namespace.svc.cluster.local"
+---
