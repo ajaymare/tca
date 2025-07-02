@@ -16,11 +16,27 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
 metadata:
-  name: "duplicate1"
-  namespace: "default"
+  name: reviews-vs
+  namespace: bookinfo
 spec:
-  mtls:
-    mode: STRICT
+  hosts:
+    - reviews.bookinfo.svc.cluster.local
+  http:
+    - route:
+        - destination:
+            host: reviews
+            subset: v2
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: partner-api-b
+spec:
+  hosts:
+    - api.partner.com
+  addresses:
+    - 10.10.10.0/24
+---
