@@ -20,10 +20,10 @@ jobs:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           #mesh-config: "./configs/gateway.yaml ./configs/virtualservice.yaml" # Multiple files with space separator
           # OR use newline separator
-          mesh-config: |-
+          #mesh-config: |-
             #test/manifest.yaml
-            test/failed.yaml
-            ./configs/virtualservice.yaml
+            #test/failed.yaml
+            #./configs/virtualservice.yaml
           #   ./configs/gateway.yaml
           #   ./configs/virtualservice.yaml
           kube-config: ${{ secrets.KUBE_CONFIG }}
