@@ -23,6 +23,7 @@ jobs:
           mesh-config: |-
             #test/manifest.yaml
             test/failed.yaml
+            ./configs/virtualservice.yaml
           #   ./configs/gateway.yaml
           #   ./configs/virtualservice.yaml
           kube-config: ${{ secrets.KUBE_CONFIG }}
