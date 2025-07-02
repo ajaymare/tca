@@ -25,7 +25,7 @@ jobs:
             test/failed.yaml
           #   ./configs/gateway.yaml
           #   ./configs/virtualservice.yaml
-          kube-config: ${{ secrets.KUBECONFIG }}
+          kube-config: ${{ secrets.KUBE_CONFIG }}
           github-token: ${{ secrets.GH_PAT }}
           #local-only: true
 
