@@ -1,5 +1,20 @@
 ---
 apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: destination-rule-2
+  namespace: example-namespace
+spec:
+  host: "my-service.example-namespace.svc.cluster.local"
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+---
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: cert-not-found-gateway
