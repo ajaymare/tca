@@ -3,7 +3,7 @@ name: Hybrid Config Analysis
 on:
   pull_request:
     branches:
-      - 'main'
+      - main
 
 jobs:
   analyze-configs:
