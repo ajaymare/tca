@@ -15,6 +15,7 @@ jobs:
       - name: Validate Istio Configs
         id: tca
         uses: tetratelabs/tca-action@main
+        continue-on-error: true
         with:
           tis-password: ${{ secrets.TIS_PASSWORD }}
           #mesh-config: "./configs/gateway.yaml ./configs/virtualservice.yaml" # Multiple files with space separator
@@ -26,30 +27,7 @@ jobs:
           #   ./configs/virtualservice.yaml
           kube-config: ${{ secrets.KUBECONFIG }}
           local-only: true
-
-  failure-handling:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: hybrid
-        id: hybrid
-        uses: ./tca
-        continue-on-error: true # Continue even if the job fails
-        with:
-          tis-password: ${{ secrets.TIS_PASSWORD }}
-          #github-token: ${{ secrets.GH_PAT }}
-          #mesh-config: "./configs/gateway.yaml ./configs/virtualservice.yaml" # Multiple files with space separator
-          # OR use newline separator
-          mesh-config: |-
-            test/manifest.yaml
-            test/failed.yaml
-          #   ./configs/gateway.yaml
-          #   ./configs/virtualservice.yaml
-          kube-config: ${{ secrets.KUBECONFIG }}
-          local-only: true
-
+          
       - name: Comment on PR
         uses: thollander/actions-comment-pull-request@v3
         with:
