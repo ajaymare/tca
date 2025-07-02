@@ -39,3 +39,4 @@ spec:
     - api.partner.com
   addresses:
     - 10.10.10.0/24
+---
