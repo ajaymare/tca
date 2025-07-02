@@ -2,9 +2,8 @@ name: Hybrid Config Analysis
 
 on:
   pull_request:
-    paths:
-      - 'tca/**'
-      - 'main/**'
+    branches:
+      - 'main'
 
 jobs:
   analyze-configs:
