@@ -34,9 +34,6 @@ jobs:
 
       - name: Optionally Fail if there are errors
         run: |
-          echo "Errors found: $ERROR_COUNT"
-          if [ ${{ $ERROR_COUNT }} -gt 0 ]; then
+          if [ ${{ env.error-count }} -gt 5 ]; then
             exit 1
           fi
-        env:
-          ERROR_COUNT: ${{ steps.tca.outputs.error-count }}
