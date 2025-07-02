@@ -34,6 +34,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: partner-api-b
+  namespace: bookinfo
 spec:
   hosts:
     - api.partner.com
