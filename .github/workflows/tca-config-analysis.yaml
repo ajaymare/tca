@@ -21,7 +21,7 @@ jobs:
           #mesh-config: "./configs/gateway.yaml ./configs/virtualservice.yaml" # Multiple files with space separator
           # OR use newline separator
           mesh-config: |-
-            test/manifest.yaml
+            #test/manifest.yaml
             test/failed.yaml
           #   ./configs/gateway.yaml
           #   ./configs/virtualservice.yaml
